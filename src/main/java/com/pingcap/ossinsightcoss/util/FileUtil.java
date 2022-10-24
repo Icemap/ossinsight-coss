@@ -17,14 +17,10 @@ package com.pingcap.ossinsightcoss.util;
 import com.pingcap.ossinsightcoss.Config;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Component;
 
-import java.io.File;
-import java.io.IOException;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -40,15 +36,15 @@ public class FileUtil {
     Config config;
 
     public List<String> readAll(String filePath) throws IOException {
-        Path path = Paths.get(filePath);
-        return Files.readAllLines(path, StandardCharsets.UTF_8);
+        Resource resource = new ClassPathResource(filePath);
+        InputStream inputStream = new BufferedInputStream(resource.getInputStream());
+        return new BufferedReader(new InputStreamReader(inputStream))
+                .lines().skip(1).toList();
     }
 
     public List<String> readCOSSInvest() {
         try {
-            File configFile = new ClassPathResource(config.getTablePath(),
-                    this.getClass().getClassLoader()).getFile();
-            return readAll(configFile.getPath());
+            return readAll(config.getTablePath());
         } catch (IOException e) {
             e.printStackTrace();
         }

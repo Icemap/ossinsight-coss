@@ -72,7 +72,6 @@ public class ConvertUtil {
 
     public List<COSSInvestBean> readCOSSInvestBean() throws Exception {
         List<String> cossCSVList = fileUtil.readCOSSInvest();
-        cossCSVList.remove(0);
         List<COSSInvestBean> beanList = new ArrayList<>();
 
         for (String line: cossCSVList) {
