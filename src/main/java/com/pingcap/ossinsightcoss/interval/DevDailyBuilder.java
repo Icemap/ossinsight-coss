@@ -21,9 +21,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
-import java.util.Collections;
-import java.util.LinkedList;
-import java.util.Queue;
 import java.util.Stack;
 import java.util.concurrent.TimeUnit;
 
@@ -44,17 +41,21 @@ public class DevDailyBuilder {
     // refresh from bottom to top
     Stack<COSSInvestBean> refreshStack = new Stack<>();
 
-    @Scheduled(fixedDelay=10, timeUnit=TimeUnit.SECONDS)
+    @Scheduled(fixedDelay=30, timeUnit=TimeUnit.SECONDS)
     public void buildAndRefreshDevDailyOfRepo() {
         if (refreshStack.isEmpty()) {
             refreshStack.addAll(cossInvestRepository.findAll());
             return;
         }
 
-        cossDevDailyRepository.saveAll(
-                cossDevDailyRepository.getCOSSDevDailyBeanByRepoName(
-                        refreshStack.pop().getGithubName()
-                )
+        cossDevDailyRepository.transferCOSSDevDailyBeanByRepoName(
+                refreshStack.pop().getGithubName()
         );
+    }
+
+    // every day, 00:10 start this job
+    @Scheduled(cron = "0 10 0 * * *")
+    public void buildLastDayDevDailyOfRepo() {
+        System.out.println("00:10 reached");
     }
 }
