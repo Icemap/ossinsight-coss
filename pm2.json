@@ -1,0 +1,11 @@
+{
+  "name": "ossinsight-coss",
+  "script": "/usr/bin/java",
+  "args": [
+    "-jar",
+    "--spring.config.location=/home/ubuntu/config/application.yaml",
+    "target/ossinsight-coss-0.0.1-SNAPSHOT.jar"
+  ],
+  "exec_interpreter": "",
+  "exec_mode": "fork"
+}

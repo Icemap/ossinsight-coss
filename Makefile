@@ -18,15 +18,13 @@ build:
 	mvn clean package -DskipTests
 
 start:
-	pm2 start java -jar target/ossinsight-coss-0.0.1-SNAPSHOT.jar \
-		--spring.config.location=${COSS_CONFIG} \
-		--name ossinsight-coss
+	pm2 start pm2.json
 
 restart:
 	git pull origin main
 	make build
-	pm2 restart ossinsight-coss
+	pm2 restart pm2.json
 
 stop:
-	pm2 stop ossinsight-coss
-	pm2 delete ossinsight-coss
+	pm2 stop pm2.json
+	pm2 delete pm2.json
