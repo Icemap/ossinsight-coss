@@ -7,6 +7,5 @@ spring:
   jpa:
     show-sql: true
     database-platform: org.hibernate.dialect.TiDBDialect
-
 coss:
   table-path: data/coss_invest.csv

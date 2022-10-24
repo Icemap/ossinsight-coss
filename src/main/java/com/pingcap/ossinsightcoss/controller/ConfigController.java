@@ -15,8 +15,9 @@
 package com.pingcap.ossinsightcoss.controller;
 
 import com.pingcap.ossinsightcoss.dao.COSSInvestBean;
+import com.pingcap.ossinsightcoss.dao.COSSInvestRepository;
 import com.pingcap.ossinsightcoss.util.ConvertUtil;
-import com.pingcap.ossinsightcoss.util.FileUtil;
+import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;

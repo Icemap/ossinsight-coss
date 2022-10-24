@@ -15,6 +15,8 @@
 package com.pingcap.ossinsightcoss.util;
 
 import com.pingcap.ossinsightcoss.dao.COSSInvestBean;
+import com.pingcap.ossinsightcoss.dao.COSSInvestRepository;
+import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -34,6 +36,8 @@ import java.util.List;
 public class ConvertUtil {
     @Autowired
     FileUtil fileUtil;
+    @Autowired
+    COSSInvestRepository cossInvestRepository;
 
     private static final int DATA_LENGTH = 12;
     SimpleDateFormat normalFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -66,7 +70,7 @@ public class ConvertUtil {
         return result;
     }
 
-    public List<COSSInvestBean> readCOSSInvestBean () throws Exception {
+    public List<COSSInvestBean> readCOSSInvestBean() throws Exception {
         List<String> cossCSVList = fileUtil.readCOSSInvest();
         cossCSVList.remove(0);
         List<COSSInvestBean> beanList = new ArrayList<>();
@@ -76,5 +80,11 @@ public class ConvertUtil {
         }
 
         return beanList;
+    }
+
+    // Run only once when application start
+    @PostConstruct
+    public void sinkConfigCOSSListToDB() throws Exception {
+        cossInvestRepository.saveAll(readCOSSInvestBean());
     }
 }
