@@ -19,7 +19,7 @@ build:
 
 start:
 	pm2 start java -jar target/ossinsight-coss-0.0.1-SNAPSHOT.jar \
-		--spring.config.location=${COSS_CONFIG}
+		--spring.config.location=${COSS_CONFIG} \
 		--name ossinsight-coss
 
 restart:
